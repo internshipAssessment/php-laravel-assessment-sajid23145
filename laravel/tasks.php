@@ -18,7 +18,7 @@ $orders = Order::with(['user', 'items.product'])
     ->where('total_amount', '>', 100)
     ->latest()
     ->take(5)
-    ->get(); // TODO: assign Eloquent query result to $orders
+    ->get(); 
 
 // ------------------------------------------------------------
 // Task 2 — FormRequest rules for storing a User
@@ -57,19 +57,11 @@ use Carbon\Carbon;
 
 class Order extends Model
 {
-    // ...
-
-    /**
-     * Scope a query to only include orders from the last given number of days.
-     *
-     * @param  Builder  $query
-     * @param  int  $days
-     * @return Builder
-     */
+    
     public function scopeRecentDays(Builder $query, int $days): Builder
     {
         return $query->where('created_at', '>=', Carbon::now()->subDays($days));
     }
 
 }
-*/
+
