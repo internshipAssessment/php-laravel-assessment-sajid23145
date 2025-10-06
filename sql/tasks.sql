@@ -9,12 +9,34 @@
 -- Sort: order_count DESC
 -- TODO: Write the SQL below
 SELECT
-  -- TODO
-;
+  u.user_id,
+  u.name,
+  COUNT(o.order_id) AS order_count
+FROM users AS u
+JOIN orders AS o
+  ON u.user_id = o.user_id
+WHERE
+  o.order_date >= NOW() - INTERVAL '30 days' 
+  o.order_date >= DATEADD(day, -30, GETDATE())
+GROUP BY
+  u.user_id,
+  u.name
+HAVING
+  COUNT(o.order_id) > 3
+ORDER BY
+  order_count DESC;
+
+
 
 -- Task 2 — Products never ordered
 -- Return: id, name of products that appear in ZERO order_items
 -- TODO: Write the SQL below
 SELECT
-  -- TODO
+  p.id,
+  p.name
+FROM products AS p
+LEFT JOIN order_items AS oi
+  ON p.id = oi.product_id
+WHERE
+  oi.product_id IS NULL;
 ;
