@@ -12,8 +12,16 @@
 // Return the first non-repeating character or null if none.
 // ------------------------------------------------------------
 function firstUniqueChar(string $s): ?string {
-    // TODO: implement
-    return null;
+    $charCounts = [];
+
+    // First pass: Count character occurrences
+    for ($i = 0; $i < strlen($s); $i++) {
+        $char = $s[$i];
+        if (!isset($charCounts[$char])) {
+            $charCounts[$char] = 0;
+        }
+        $charCounts[$char]++;
+    return ;
 }
 
 // ------------------------------------------------------------
@@ -22,8 +30,12 @@ function firstUniqueChar(string $s): ?string {
 // Return the integer total (e.g., 599)
 // ------------------------------------------------------------
 function sumOrder(array $items): int {
-    // TODO: implement
-    return 0;
+    $total = 0;
+    foreach ($items as $item) {
+        $total += $item['qty'] * $item['unit_price'];
+    }
+    return $total;
+    
 }
 
 // ------------------------------------------------------------
