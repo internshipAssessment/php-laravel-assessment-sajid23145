@@ -14,7 +14,11 @@ use App\Models\Order;
 // Order by created_at desc
 // Save result in $orders
 // ------------------------------------------------------------
-$orders = null; // TODO: assign Eloquent query result to $orders
+$orders = Order::with(['user', 'items.product'])
+    ->where('total_amount', '>', 100)
+    ->latest()
+    ->take(5)
+    ->get(); // TODO: assign Eloquent query result to $orders
 
 // ------------------------------------------------------------
 // Task 2 — FormRequest rules for storing a User
@@ -25,8 +29,13 @@ $orders = null; // TODO: assign Eloquent query result to $orders
 // ------------------------------------------------------------
 function userStoreRules(): array
 {
-    // TODO: return array of Laravel validation rules
-    return [];
+    return [
+    'name' => 'required|string|min:2|max:60',
+    'email' => 'required|email|unique:users,email',
+    'password' => 'required|string|min:8|confirmed',
+];
+
+    
 }
 
 // ------------------------------------------------------------
@@ -43,9 +52,24 @@ use Illuminate\Support\Carbon;
 
 class Order extends Model
 {
-    // TODO: paste the scope here
-    // public function scopeRecentDays(Builder $query, int $days)
-    // {
-    // }
+   use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+
+class Order extends Model
+{
+    // ...
+
+    /**
+     * Scope a query to only include orders from the last given number of days.
+     *
+     * @param  Builder  $query
+     * @param  int  $days
+     * @return Builder
+     */
+    public function scopeRecentDays(Builder $query, int $days): Builder
+    {
+        return $query->where('created_at', '>=', Carbon::now()->subDays($days));
+    }
+
 }
 */
