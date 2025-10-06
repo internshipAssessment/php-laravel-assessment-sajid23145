@@ -18,6 +18,7 @@ $orders = Order::with(['user', 'items.product'])
     ->where('total_amount', '>', 100)
     ->latest()
     ->take(5)
+    ->orderby('created_at',desc)
     ->get(); 
 
 // ------------------------------------------------------------
